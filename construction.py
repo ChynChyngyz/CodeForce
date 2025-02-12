@@ -26,7 +26,7 @@ def create_graph(num_new_vertices):
                 G.add_edge(new_vertex, connection)
 
         if any(available_edges_for_initial[v] > 2 for v in initial_vertices):
-            raise ValueError("Ошибка: у изначальных вершин больше 2 ребер.")
+            raise ValueError("Error 404")
 
         num_edges = random.randint(3, 5)
         for _ in range(num_edges - len(connections)):
@@ -45,7 +45,7 @@ def create_graph(num_new_vertices):
 
     return G
 
-num_new_vertices = int(input("Введите количество новых вершин: "))
+num_new_vertices = int(input())
 
 try:
     graph = create_graph(num_new_vertices)
