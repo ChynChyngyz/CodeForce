@@ -1,0 +1,44 @@
+inf = float('inf')
+
+def main(a):
+    n = len(a)
+    dist = a
+    n_v = [[-1 if a[i][j] == inf else j for j in range(n)] for i in range(n)]
+
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                if dist[i][j] > dist[i][k] + dist[k][j]:
+                    dist[i][j] = dist[i][k] + dist[k][j]
+                    n_v[i][j] = n_v[i][k]
+    return dist, n_v
+
+def recon(start, end, n_v):
+    if n_v[start][end] == -1:
+        return None
+    path = [start]
+    while start != end:
+        start = n_v[start][end]
+        path.append(start)
+    return path
+
+a = [
+    [0, 3, 5, inf],
+    [inf, 0, 4, inf],
+    [inf, inf, 0, -3],
+    [-1, 2, inf, 0],
+]
+
+dist, n_v = main(a)
+print("Херня")
+for r in dist:
+    print(r)
+
+start = int(input())
+end = int(input())
+path = recon(start, end, n_v)
+
+if path:
+    print(f"Норм путь от {start} до {end} => {' -> '.join(map(str, path))}")
+else:
+    print("Иди на***")
