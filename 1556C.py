@@ -1,4 +1,4 @@
-def solve():
+def main():
     n = int(input())
     a = list(map(int, input().split()))
     ans = 0
@@ -23,4 +23,4 @@ def solve():
 
 
 if __name__ == "__main__":
-    solve()
+    main()
