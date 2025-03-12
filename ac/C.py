@@ -1,18 +1,59 @@
+import bisect
+
+
 def main():
-    n, q = map(int, input().split())
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+
+    idx = 0
+    n = int(data[idx])
+    m = int(data[idx + 1])
+    idx += 2
+
+    finches = []
     for _ in range(n):
-        l, r = list(map(int, input().split()))
-    for _ in range(q):
-        t = int(input())
+        l = int(data[idx])
+        h = int(data[idx + 1])
+        finches.append((l, h))
+        idx += 2
 
-    def solve(n, q, l, r, t):
-        out = 0
-        for i, j in enumerate(range(l, r)):
-            print(f"Индекс {j}: {i}")
-            print(f"Первый элемент {j}: {i[0]}")
-            print(f"Второй элемент {j}: {i[1]}")
-        return out
+    jetstreams = []
+    for _ in range(m):
+        a = int(data[idx])
+        w = int(data[idx + 1])
+        jetstreams.append((a, w))
+        idx += 2
 
-if __name__ == '__main__':
+    if m == 0:
+        result = [str(l) for l, h in finches]
+        print(' '.join(result))
+        return
+
+    jetstreams.sort()
+
+    a_list = [js[0] for js in jetstreams]
+    w_list = [js[1] for js in jetstreams]
+
+    prefix_w = [0] * (m + 1)
+    for i in range(m):
+        prefix_w[i + 1] = prefix_w[i] + w_list[i]
+
+    def calc(h):
+        count = bisect.bisect_right(a_list, h)
+        first_ge = bisect.bisect_left(a_list, h)
+        sum_less = prefix_w[first_ge]
+        sum_equal = prefix_w[count] - prefix_w[first_ge]
+        return 2 * sum_less + sum_equal
+
+    result = []
+    for l, h in finches:
+        displacement = calc(h)
+        final_position = l + displacement
+        result.append(str(final_position))
+
+    print(' '.join(result))
+
+
+if __name__ == "__main__":
     main()
-
